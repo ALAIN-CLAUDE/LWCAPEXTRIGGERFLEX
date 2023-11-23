@@ -1,0 +1,75 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 11-23-2023
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+    <div class="slds-card" style="border: 1px solid rgb(209, 208, 208); border-radius: 4px; ">
+
+        <!-- Header Section -->
+        <div class="slds-page-header slds-page-header_related-list">
+            <div class="slds-page-header__row">
+                <div class="slds-page-header__col-title">
+                    <div class="slds-media">
+                        <div class="slds-media__body">
+                            <div class="slds-page-header__name">
+                                <div class="slds-page-header__name-title">
+                                    <lightning-icon icon-name="standard:product" size="small"></lightning-icon>
+                                </div>
+                                <div align="left" style="position: relative; left: 11px; font-size: 15px; font-weight: bold; word-spacing: 3px;">
+                                    <h3 slot="title">
+                                        <span>{ChildObjectName} ({recordCount})</span>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-page-header__col-actions">
+                    <div class="slds-page-header__controls">
+                        <div class="slds-page-header__control">
+                            <ul class="slds-button-group-list">
+                                <li class="slds-m-right_small">
+                                    <button class="slds-button slds-button_icon slds-button_icon-border" title="Refresh" alternative-text="Refresh" onclick={refreshTimeline}>
+                                        <lightning-button-icon icon-name="utility:settings"  alternative-text="Settings" title="Settings"></lightning-button-icon>
+                                    </button>
+                                </li>
+                                <li class="slds-m-right_small">
+                                        <button class="slds-button slds-button_icon slds-button_icon-border" title="Refresh" alternative-text="Refresh" onclick={refreshTimeline}>
+                                            <svg class="slds-button__icon" aria-hidden="true">
+                                                <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg?cache=9.28.0#refresh"></use>
+                                            </svg>
+                                        </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       <!-- Datatable Section -->
+       <template if:true={data}>
+        <div class="slds-media__body">
+            <lightning-datatable
+                key-field="Id"
+                data={data}
+                columns={columns}
+                min-column-width=200
+                onsave={handleSave}
+                draft-values={draftValues}
+                hide-checkbox-column="true">
+            </lightning-datatable>
+
+            <div slot="footer" align="center" style="margin: 11px;">
+                <a onclick={navitageToLWCWithoutAura}>
+                    <span class="view-all-label">View All</span>
+                </a>
+            </div>
+        </div>
+    </template>
+     
+    </div>
+</template>
