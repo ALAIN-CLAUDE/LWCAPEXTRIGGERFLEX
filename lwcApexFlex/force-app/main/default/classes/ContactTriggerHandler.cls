@@ -1,3 +1,10 @@
+/**
+ * @description       : 
+ * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @group             : 
+ * @last modified on  : 11-24-2023
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+**/
 public class ContactTriggerHandler {
 
     // Entry point for trigger handling
@@ -13,9 +20,11 @@ public class ContactTriggerHandler {
 
     // Handles logic after Contact records are inserted
     public static void afterInsert(List<Contact> newContacts) {
+    
         List<Medical_Info__c> infosToUpdate = new List<Medical_Info__c>();
         List<Contact> contactUpdate = new List<Contact>();
-
+        
+ 
         for (Contact contact : [SELECT Id, Name, lastName, Medical_Info__c FROM Contact WHERE Id IN :newContacts]) {
             if (contact.Medical_Info__c != null) {
                 infosToUpdate.add(new Medical_Info__c(Id = contact.Medical_Info__c, Name = contact.Name));
@@ -41,8 +50,8 @@ public class ContactTriggerHandler {
     public static void afterUpdate(List<Contact> updatedContacts) {
         List<Medical_Info__c> infosToUpdate = new List<Medical_Info__c>();
         List<Contact> contactUpdate = new List<Contact>();
-
-        for (Contact contact : [SELECT Id, Name, lastName, Medical_Info__c FROM Contact WHERE Id IN :updatedContacts]) {
+		
+       for (Contact contact : [SELECT Id, Name, lastName, Medical_Info__c FROM Contact WHERE Id IN :updatedContacts]) {
             if (contact.Medical_Info__c != null) {
                 infosToUpdate.add(new Medical_Info__c(Id = contact.Medical_Info__c, Name = contact.Name));
             } else {
@@ -84,14 +93,15 @@ public class ContactTriggerHandler {
     // Helper method to retrieve existing or create new Medical Info record
     private static Medical_Info__c getExistingMedicalInfo(String contactNames) {
         Medical_Info__c[] existingMedicalInfo = [SELECT Id, Name FROM Medical_Info__c WHERE Name = :contactNames LIMIT 1];
-
+		Medical_Info__c medInfo;
         if (!existingMedicalInfo.isEmpty()) {
-            return existingMedicalInfo[0];
+            medInfo= existingMedicalInfo[0];
         } else {
             Medical_Info__c newMedicalInfo = new Medical_Info__c();
             newMedicalInfo.Name = contactNames;
             insert newMedicalInfo;
-            return newMedicalInfo;
+            medInfo = newMedicalInfo;
         }
+        return medInfo;
     }
 }
